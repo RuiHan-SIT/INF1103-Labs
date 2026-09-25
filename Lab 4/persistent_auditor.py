@@ -1,4 +1,3 @@
-inventory = 0
 failed_attempts = 0
 deliveries_processed = 0
 
@@ -34,6 +33,30 @@ def generate_report(total_units, failed_attempts):
     print("Total Inventory:", total_units)
     print("Number of failed attempts:", failed_attempts)
 
+def load_inventory():
+    file = open("inventory.txt", "a")
+    file.close()
+
+    with open("inventory.txt", "r") as file:
+        lines = file.readlines()
+
+    if len(lines) == 0:
+        return 0, []
+
+    inventory = int(lines[1])
+    history_lines = lines[4:]
+    transaction_history = []
+
+    for line in history_lines:
+        transaction_history.append(int(line))
+
+    return inventory, transaction_history
+
+inventory, transaction_history = load_inventory()
+
+print(f"Loaded Inventory: {inventory}")
+print(f"Transaction History: {transaction_history}")
+
 while True:
     delivery, input_failures = get_valid_input()
 
@@ -49,6 +72,7 @@ while True:
 
     inventory = process_delivery(inventory, delivery)
     deliveries_processed += 1
+    transaction_history.append(delivery)
 
     tax = calculate_tax(delivery)
     print(f"Tax: ${tax}")
