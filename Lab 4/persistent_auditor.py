@@ -52,6 +52,15 @@ def load_inventory():
 
     return inventory, transaction_history
 
+def save_inventory(inventory, transaction_history):
+    with open("inventory.txt", "w") as file:
+        file.write("Total Inventory (Units):\n")
+        file.write(str(inventory) + "\n\n")
+        file.write("Transaction History (Units):\n")
+
+        for transaction in transaction_history:
+            file.write(str(transaction) + "\n")
+
 inventory, transaction_history = load_inventory()
 
 print(f"Loaded Inventory: {inventory}")
@@ -63,11 +72,13 @@ while True:
     failed_attempts += input_failures
 
     if delivery == "quit":
+        save_inventory(inventory, transaction_history)
         break
 
     if inventory + delivery > 500:
         print("Inventory limit exceeded. Maximum capacity is 500 units.")
         failed_attempts += 1
+        save_inventory(inventory, transaction_history)
         break
 
     inventory = process_delivery(inventory, delivery)

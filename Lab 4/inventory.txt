@@ -1,0 +1,8 @@
+Total Inventory (Units):
+480
+
+Transaction History (Units):
+10
+20
+50
+400
