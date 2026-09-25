@@ -73,7 +73,7 @@ while True:
     inventory = process_delivery(inventory, delivery)
     deliveries_processed += 1
     transaction_history.append(delivery)
-
+    
     tax = calculate_tax(delivery)
     print(f"Tax: ${tax}")
 
