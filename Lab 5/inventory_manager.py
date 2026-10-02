@@ -5,7 +5,7 @@ def display_all(inventory):
     print("------------------------------------------------")
     
     for item in inventory:
-        print(f"ID: {item["id"]} | Name: {item["name"]} | Price: ${item["price"]:.2f} | Stock: {item["stock"]}")
+        print(f'ID: {item["id"]} | Name: {item["name"]} | Price: ${item["price"]:.2f} | Stock: {item["stock"]}')
     
     print("------------------------------------------------")
 
@@ -57,8 +57,8 @@ def update_stock(inventory):
     for item in inventory:
         if item["id"] == product_id:
             print("\nProduct Found:")
-            print(f"Name: {item["name"]}")
-            print(f"Current Stock: {item["stock"]}\n")
+            print(f'Name: {item["name"]}')
+            print(f'Current Stock: {item["stock"]}\n')
 
             while True:
                 new_stock = input("New Stock Quantity: ")
@@ -83,10 +83,10 @@ def search_product(inventory):
         if item["id"] == product_id:
             print("\nProduct Found:")
             print("------------------------------------------------")
-            print(f"ID: {item["id"]}")
-            print(f"Name: {item["name"]}")
-            print(f"Price: ${item["price"]:.2f}")
-            print(f"Stock: {item["stock"]}")
+            print(f'ID: {item["id"]}')
+            print(f'Name: {item["name"]}')
+            print(f'Price: ${item["price"]:.2f}')
+            print(f'Stock: {item["stock"]}')
             print("------------------------------------------------")
             return
 
