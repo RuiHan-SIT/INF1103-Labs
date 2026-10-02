@@ -1,26 +1,5 @@
 import json
 
-inventory = [
-    {
-        "id": "P001",
-        "name": "Laptop",
-        "price": 1200.00,
-        "stock": 15
-    },
-    {
-        "id": "P002",
-        "name": "Mouse",
-        "price": 25.50,
-        "stock": 40
-    },
-    {
-        "id": "P003",
-        "name": "Keyboard",
-        "price": 45.00,
-        "stock": 25
-    }
-]
-
 def display_all(inventory):
     print("Current Inventory")
     print("------------------------------------------------")
@@ -37,7 +16,7 @@ def add_product(inventory):
     product_name = input("Product Name: ")
 
     while True:
-        price = input("Price: ")
+        price = input("Price($): ")
 
         try:
             price = float(price)
@@ -68,12 +47,12 @@ def add_product(inventory):
 
     inventory.append(new_product)
 
-    print("Product added successfully!")
+    print("\nProduct added successfully!")
 
 def update_stock(inventory):
     print("Update Stock")
 
-    product_id = input("Enter Product ID: ")
+    product_id = input("Enter Product ID: ").upper()
 
     for item in inventory:
         if item["id"] == product_id:
@@ -99,7 +78,7 @@ def update_stock(inventory):
 def search_product(inventory):
     print("Search Product")
 
-    product_id = input("Enter Product ID: ")
+    product_id = input("Enter Product ID: ").upper()
     for item in inventory:
         if item["id"] == product_id:
             print("\nProduct Found:")
@@ -111,7 +90,7 @@ def search_product(inventory):
             print("------------------------------------------------")
             return
 
-    print("Product not found.")
+    print("\nProduct not found.")
 
 def load_inventory():
     try: 
@@ -125,9 +104,54 @@ def load_inventory():
         return []
 
 def save_inventory(inventory):
-    print("Saving inventory...")
-
     with open("inventory.json", "w") as file:
         json.dump(inventory, file, indent=4)
 
+print("========================================")
+print("INVENTORY MANAGEMENT SYSTEM")
+print("========================================\n")
+
+inventory = load_inventory()
+
+choice = ""
+
+while choice != 6:
+    print("\n----------- MENU -----------")
+    print("1. Display All Products")
+    print("2. Add Product")
+    print("3. Update Stock")
+    print("4. Search Product")
+    print("5. Save Inventory")
+    print("6. Exit")
+    print("-------------------------------")
+
+    choice = input("\nEnter option: ")
+    print("")
+
+    if choice.isdigit():
+        choice = int(choice)
+    else:
+        print("Invalid option. Please try again.")
+        continue
+
+    if choice == 1:
+        display_all(inventory)
+    elif choice == 2:
+        add_product(inventory)
+    elif choice == 3:
+        update_stock(inventory)
+    elif choice == 4:
+        search_product(inventory)
+    elif choice == 5:
+        print("Saving inventory...")
+        save_inventory(inventory)
         print("Inventory saved successfully to inventory.json.")
+    elif choice == 6:
+        print("Saving inventory before exit...")
+        save_inventory(inventory)
+        print("Inventory saved successfully.\n")
+        print("Thank you for using Inventory Management System.")
+        print("Program terminated.")
+        break
+    else:
+        print("Invalid option. Please try again.")
