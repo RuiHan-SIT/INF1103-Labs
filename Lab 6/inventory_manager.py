@@ -60,4 +60,71 @@ class Inventory:
 
     def get_products(self):
         return self.__inventory
-      
+                
+def add_product_menu(inventory):
+    print("Add New Product")
+    
+    product_id = input("Product ID: ").upper()
+    product_name = input("Product Name: ")
+
+    while True:
+        price = input("Price($): ")
+
+        try:
+            price = float(price)
+
+            if price >= 0:
+                break
+            else:
+                print("Please enter a positive price.")
+
+        except ValueError:
+            print("Please enter a valid price.")
+    
+    while True:
+        stock = input("Stock Quantity: ")
+
+        if stock.isdigit():
+            stock = int(stock)
+            break
+        else:
+            print("Please enter a valid stock quantity.")
+
+    product = Product(product_id, product_name, price, stock)
+    inventory.add_product(product)
+    print("\nProduct added successfully!")
+
+def update_stock_menu(inventory):
+    print("Update Stock")
+
+    product_id = input("Enter Product ID: ").upper()
+
+    result = inventory.search_product(product_id)
+
+    if result is not None:
+        print("\nProduct Found:")
+        print(f"Name: {result.get_name()}")
+        print(f"Current Stock: {result.get_stock()}")
+        while True:
+            new_stock = input("\nNew Stock Quantity: ")
+    
+            if new_stock.isdigit():
+                new_stock = int(new_stock)
+                result.update_stock(new_stock)
+                print("\nStock updated successfully!")
+                break
+            else:
+                print("Please enter a valid stock quantity.")
+    else:
+        print("Product not found.")
+
+def search_product_menu(inventory):
+    print("Search Product")
+
+    product_id = input("Enter Product ID: ").upper()
+    result = inventory.search_product(product_id)
+    if result is not None:
+        print("\nProduct Found:")
+        result.display_detailed_information()
+    else:
+        print("\nProduct not found.")
