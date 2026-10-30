@@ -1,20 +1,50 @@
 [
     {
+        "type": "physical",
         "id": "P001",
         "name": "Laptop",
-        "price": 1200.5,
-        "stock": 15
+        "price": 1200.0,
+        "stock": 15,
+        "weight": 2.5
     },
     {
+        "type": "physical",
         "id": "P002",
-        "name": "Mouse",
-        "price": 25.5,
-        "stock": 40
+        "name": "Keyboard",
+        "price": 80.0,
+        "stock": 30,
+        "weight": 0.8
     },
     {
+        "type": "digital",
+        "id": "D001",
+        "name": "Microsoft Office",
+        "price": 150.0,
+        "stock": 20,
+        "download_size": 500
+    },
+    {
+        "type": "digital",
+        "id": "D002",
+        "name": "Antivirus Software",
+        "price": 49.9,
+        "stock": 50,
+        "download_size": 250
+    },
+    {
+        "type": "physical",
         "id": "P003",
-        "name": "Monitor",
-        "price": 1000.0,
-        "stock": 100
+        "name": "Mouse",
+        "price": 59.9,
+        "stock": 50,
+        "weight": 0.15
+    },
+    {
+        "type": "digital",
+        "id": "D003",
+        "name": "Adobe Photoshop",
+        "price": 29.9,
+        "stock": 100,
+        "download_size": 2048
     }
 ]

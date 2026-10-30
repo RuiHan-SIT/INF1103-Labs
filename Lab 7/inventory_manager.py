@@ -12,7 +12,7 @@ class Product(ABC):
         self.__stock = quantity
 
     def display_information(self):
-        print(f'ID: {self.__id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}')
+        print(f'ID: {self.__id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}', end="")
 
     def display_detailed_information(self):
         print("------------------------------------------------")
@@ -55,7 +55,7 @@ class PhysicalProduct(Product, CanBeShipped):
 
     def display_information(self):
         super().display_information()
-        print(f"Weight: {self.__weight:.2f}kg")
+        print(f" | Weight: {self.__weight:.2f}kg")
 
     def get_fulfilment_info(self):
         return "This product requires physical shipping."
@@ -77,7 +77,7 @@ class DigitalProduct(Product):
 
     def display_information(self):
         super().display_information()
-        print(f"Download Size: {self.__download_size}MB")
+        print(f" | Download Size: {self.__download_size}MB")
 
     def get_fulfilment_info(self):
         return "This product is delivered digitally."
@@ -96,11 +96,11 @@ class Inventory:
         self.__inventory.append(product)
 
     def display_all(self):
-        print("\nCurrent Inventory")
-        print("------------------------------------------------")
+        print("Current Inventory")
+        print("------------------------------------------------------------------------------------------------")
         for product in self.__inventory:
             product.display_information()
-        print("------------------------------------------------")
+        print("------------------------------------------------------------------------------------------------")
 
     def search_product(self, id):
         for product in self.__inventory:
@@ -132,7 +132,15 @@ def add_product_menu(inventory):
         except ValueError:
             print("Please enter a valid option.")
 
-    product_id = input("Product ID: ").upper()
+    while True:
+        product_id = input("\nProduct ID: ").upper()
+        result = inventory.search_product(product_id)
+
+        if result is not None:
+            print("Error: Product ID already exists. Please enter a different ID.")
+        else:
+            break    
+
     product_name = input("Product Name: ")
 
     while True:
@@ -318,5 +326,5 @@ def main():
         else:
             print("Invalid option. Please try again.")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
