@@ -154,3 +154,60 @@ def save_inventory(inventory):
 
     with open("inventory.json", "w") as file:
         json.dump(data, file, indent=4)
+
+# =================================================
+#                    MAIN MENU                    
+# =================================================
+
+def main():
+    print("========================================")
+    print("INVENTORY MANAGEMENT SYSTEM")
+    print("========================================\n")
+
+    inventory = load_inventory()
+
+    choice = ""
+
+    while choice != 6:
+        print("\n----------- MENU -----------")
+        print("1. Display All Products")
+        print("2. Add Product")
+        print("3. Update Stock")
+        print("4. Search Product")
+        print("5. Save Inventory")
+        print("6. Exit")
+        print("-------------------------------")
+
+        choice = input("\nEnter option: ")
+        print("")
+
+        if choice.isdigit():
+            choice = int(choice)
+        else:
+            print("Invalid option. Please try again.")
+            continue
+
+        if choice == 1:
+            inventory.display_all()
+        elif choice == 2:
+            add_product_menu(inventory)
+        elif choice == 3:
+            update_stock_menu(inventory)
+        elif choice == 4:
+            search_product_menu(inventory)
+        elif choice == 5:
+            print("Saving inventory...")
+            save_inventory(inventory)
+            print("Inventory saved successfully to inventory.json.")
+        elif choice == 6:
+            print("Saving inventory before exit...")
+            save_inventory(inventory)
+            print("Inventory saved successfully.\n")
+            print("Thank you for using Inventory Management System.")
+            print("Program terminated.")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
