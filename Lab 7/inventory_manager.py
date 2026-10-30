@@ -242,9 +242,13 @@ def load_inventory():
             data = json.load(file)
 
         for item in data:
-            product = Product(item["id"], item["name"], item["price"], item["stock"])
-            inventory.add_product(product)
+            if item["type"] == "physical":
+                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item["weight"])
+            elif item["type"] == "digital":
+                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item["download_size"])
 
+            inventory.add_product(product)
+        
         print("inventory.json found.")
         print("Inventory loaded successfully.")
         return inventory
