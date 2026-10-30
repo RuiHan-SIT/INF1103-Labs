@@ -129,7 +129,6 @@ def search_product_menu(inventory):
     else:
         print("\nProduct not found.")
 
-
 def load_inventory():
     inventory = Inventory()
     try: 
