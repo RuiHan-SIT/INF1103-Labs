@@ -128,3 +128,29 @@ def search_product_menu(inventory):
         result.display_detailed_information()
     else:
         print("\nProduct not found.")
+
+
+def load_inventory():
+    inventory = Inventory()
+    try: 
+        with open("inventory.json", "r") as file:
+            data = json.load(file)
+
+        for item in data:
+            product = Product(item["id"], item["name"], item["price"], item["stock"])
+            inventory.add_product(product)
+
+        print("inventory.json found.")
+        print("Inventory loaded successfully.")
+        return inventory
+    except FileNotFoundError:
+        return inventory
+
+def save_inventory(inventory):
+    data = []
+    products = inventory.get_products()
+    for item in products:
+        data.append(item.to_dict())
+
+    with open("inventory.json", "w") as file:
+        json.dump(data, file, indent=4)
