@@ -1,4 +1,6 @@
 import json
+from product import Product
+from inventory import Inventory
 
 def add_product_menu(inventory):
     print("Add New Product")
