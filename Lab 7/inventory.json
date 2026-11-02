@@ -38,13 +38,5 @@
         "price": 59.9,
         "stock": 50,
         "weight": 0.15
-    },
-    {
-        "type": "digital",
-        "id": "D003",
-        "name": "Adobe Photoshop",
-        "price": 29.9,
-        "stock": 100,
-        "download_size": 2048
     }
 ]
