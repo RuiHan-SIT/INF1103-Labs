@@ -1,17 +1,19 @@
 from classes.product import Product
 
 class Inventory:
-    def __init__(self):
+    def __init__(self) -> None:
         self.__inventory: list[Product] = []
 
-    def add_product(self, product: Product):
+    def add_product(self, product: Product) -> None:
         self.__inventory.append(product)
 
-    def display_all(self):
+    def display_all(self) -> None:
         print("Current Inventory")
         print("------------------------------------------------------------------------------------------------")
         for product in self.__inventory:
             product.display_information()
+            product.display_supplier_information()
+            print()
         print("------------------------------------------------------------------------------------------------")
 
     def search_product(self, id: str) -> Product | None:
@@ -20,11 +22,11 @@ class Inventory:
                 return product
         return None
 
-    def remove_product(self, id: str):
+    def remove_product(self, id: str) -> None:
         for product in self.__inventory:
             if id == product.get_id():
                 self.__inventory.remove(product)
                 break
 
-    def get_products(self):
+    def get_products(self) -> list[Product]:
         return self.__inventory

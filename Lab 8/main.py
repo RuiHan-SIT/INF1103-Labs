@@ -2,6 +2,8 @@ import json
 from classes.inventory import Inventory
 from classes.physical_product import PhysicalProduct
 from classes.digital_product import DigitalProduct
+from classes.supplier import Supplier
+from classes.order import Order
 
 def add_product_menu(inventory):
     print("Add New Product\n")
@@ -78,7 +80,6 @@ def add_product_menu(inventory):
             except ValueError:
                 print("Please enter a valid weight.")
 
-        product = PhysicalProduct(product_id, product_name, price, stock, weight)
     
     elif option == 2:
         while True:
@@ -95,8 +96,18 @@ def add_product_menu(inventory):
             except ValueError:
                 print("Please enter a valid download size.")
 
-        product = DigitalProduct(product_id, product_name, price, stock, download_size)
     
+    print("\nSupplier Details")
+    supplier_id = input("Supplier ID: ").strip().upper()
+    supplier_name = input("Supplier Name: ").strip()
+    contact_email = input("Supplier Email: ").strip()
+    supplier = Supplier(supplier_id, supplier_name, contact_email)
+
+    if option == 1:
+        product = PhysicalProduct(product_id, product_name, price, stock, weight, supplier)
+    else:
+        product = DigitalProduct(product_id, product_name, price, stock, download_size, supplier)
+
     inventory.add_product(product)
     print("\nProduct added successfully!")
 
@@ -132,8 +143,62 @@ def search_product_menu(inventory):
     if result is not None:
         print("\nProduct Found:")
         result.display_detailed_information()
+        result.display_supplier_information()
     else:
         print("\nProduct not found.")
+
+def create_order_menu(inventory: Inventory) -> None:
+    if not inventory.get_products():
+        print("No products available. Add a product first.")
+        return
+
+    order_id = input("Enter Order ID: ").strip().upper()
+    while not order_id:
+        order_id = input("Order ID is required. Enter Order ID: ").strip().upper()
+
+    order = Order(order_id)
+    line_count = 0
+    inventory.display_all()
+
+    while True:
+        product_id = input("\nProduct ID to order (0 to finish): ").strip().upper()
+        if product_id == "0":
+            break
+
+        product = inventory.search_product(product_id)
+        if product is None:
+            print("Product not found. Please try again.")
+            continue
+
+        available_stock = order.get_available_stock(product)
+        if available_stock <= 0:
+            print("No units remain available for this product in this order.")
+            continue
+        print(f"Available for this order: {available_stock}")
+
+        while True:
+            try:
+                quantity = int(input("Quantity: "))
+            except ValueError:
+                print("Please enter a whole number.")
+                continue
+
+            try:
+                # Order validates stock and creates the OrderLine internally.
+                order.add_order_line(product, quantity)
+                break
+            except ValueError as error:
+                print(error)
+
+        line_count += 1
+        print("Order line added.")
+
+    if line_count == 0:
+        print("No order lines added. Order cancelled.")
+        return
+
+    order.display_information()
+
 
 def load_inventory():
     inventory = Inventory()
@@ -141,16 +206,33 @@ def load_inventory():
         with open("inventory.json", "r") as file:
             data = json.load(file)
 
+        # Older inventory files do not contain supplier details.
+        unknown_supplier = Supplier("UNKNOWN", "Not recorded", "Not recorded")
+        missing_suppliers = False
+
         for item in data:
+            if "supplier" in item:
+                supplier_data = item["supplier"]
+                supplier = Supplier(
+                    supplier_data["supplier_id"],
+                    supplier_data["name"],
+                    supplier_data["contact_email"]
+                )
+            else:
+                supplier = unknown_supplier
+                missing_suppliers = True
+
             if item["type"] == "physical":
-                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item["weight"])
+                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item["weight"], supplier)
             elif item["type"] == "digital":
-                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item["download_size"])
+                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item["download_size"], supplier)
 
             inventory.add_product(product)
         
         print("inventory.json found.")
         print("Inventory loaded successfully.")
+        if missing_suppliers:
+            print("Some saved products have no supplier details; these are shown as Not recorded.")
         return inventory
     except FileNotFoundError:
         return inventory
@@ -177,14 +259,15 @@ def main():
 
     choice = ""
 
-    while choice != 6:
+    while choice != 7:
         print("\n----------- MENU -----------")
         print("1. Display All Products")
         print("2. Add Product")
         print("3. Update Stock")
         print("4. Search Product")
         print("5. Save Inventory")
-        print("6. Exit")
+        print("6. Create Order")
+        print("7. Exit")
         print("-------------------------------")
 
         choice = input("\nEnter option: ")
@@ -209,6 +292,8 @@ def main():
             save_inventory(inventory)
             print("Inventory saved successfully to inventory.json.")
         elif choice == 6:
+            create_order_menu(inventory)
+        elif choice == 7:
             print("Saving inventory before exit...")
             save_inventory(inventory)
             print("Inventory saved successfully.\n")

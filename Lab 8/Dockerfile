@@ -2,6 +2,8 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY main.py .
+COPY *.py .
+COPY classes/ ./classes/
+COPY inventory.json .
 
 CMD ["python", "main.py"]

@@ -5,6 +5,11 @@
         "name": "Laptop",
         "price": 1200.0,
         "stock": 15,
+        "supplier": {
+            "supplier_id": "SAMPLE-HW",
+            "name": "Sample Hardware Supplier",
+            "contact_email": "hardware@example.com"
+        },
         "weight": 2.5
     },
     {
@@ -13,6 +18,11 @@
         "name": "Keyboard",
         "price": 80.0,
         "stock": 30,
+        "supplier": {
+            "supplier_id": "SAMPLE-HW",
+            "name": "Sample Hardware Supplier",
+            "contact_email": "hardware@example.com"
+        },
         "weight": 0.8
     },
     {
@@ -21,6 +31,11 @@
         "name": "Microsoft Office",
         "price": 150.0,
         "stock": 20,
+        "supplier": {
+            "supplier_id": "SAMPLE-SW",
+            "name": "Sample Software Supplier",
+            "contact_email": "software@example.com"
+        },
         "download_size": 500
     },
     {
@@ -29,6 +44,11 @@
         "name": "Antivirus Software",
         "price": 49.9,
         "stock": 50,
+        "supplier": {
+            "supplier_id": "SAMPLE-SW",
+            "name": "Sample Software Supplier",
+            "contact_email": "software@example.com"
+        },
         "download_size": 250
     },
     {
@@ -37,6 +57,24 @@
         "name": "Mouse",
         "price": 59.9,
         "stock": 50,
+        "supplier": {
+            "supplier_id": "SAMPLE-HW",
+            "name": "Sample Hardware Supplier",
+            "contact_email": "hardware@example.com"
+        },
         "weight": 0.15
+    },
+    {
+        "type": "digital",
+        "id": "D003",
+        "name": "Adobe Acrobat",
+        "price": 20.0,
+        "stock": 10,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "Adobe",
+            "contact_email": "adobe@gmail.com"
+        },
+        "download_size": 100
     }
 ]
